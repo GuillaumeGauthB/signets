@@ -33,7 +33,6 @@ export default function Appli() {
   }
 
   // Surveiller l'etat de la connexion Firebase Auth
-
   useEffect(() => observerEtatConnexion(setUtilisateur),[]);
   return (
     utilisateur ?

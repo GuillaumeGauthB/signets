@@ -26,8 +26,10 @@ export default function AjoutDossier({ouvert, setOuvert, gererAjoutDossier}) {
 
   function gererSoumettre() {
     //   Code qui gere l'ajout dans Firestore
-    gererAjoutDossier(titre, couverture, couleur);
-    gererFermer();
+    if(titre.search(/[a-z]{2,}/i) != -1){
+      gererAjoutDossier(titre, couverture, couleur);
+      gererFermer();
+    }
   }
 
   return (
