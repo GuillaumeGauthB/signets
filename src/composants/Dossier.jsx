@@ -9,31 +9,37 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
+import ModificationDossier from './ModificationDossier';
 
 export default function Dossier({id, titre, couleur, dateModif, couverture, supprimerDossier}) {
+  // Etat du menu contextuel
   const [eltAncrage, setEltAncrage] = React.useState(null);
-  const estOuvert = Boolean(eltAncrage);
+  const estOuvertMenu = Boolean(eltAncrage);
+
+  // Etat du formulaire de modification
+  const [estOuvertFrm, setEstOuvertFrm] = useState(false);
 
   function gererMenu(event) {
     setEltAncrage(event.currentTarget);
   };
 
-  function gererFermer() {
+  function gererFermerMenu() {
     setEltAncrage(null);
   };
   
   function gererFormulaireModifier(){
     // Ouvrir le formulaire de modification du dossier (transferer l'information du
     // dossier dans le formulaire)...
-
+    setEstOuvertFrm(true);
     // ... puis fermer le menu
+    gererFermerMenu();
   }
 
   function gererSupprimer(){
     // Appeler la fonction qui de ListeDossiers qui gere la suppression dans Firestore.
     supprimerDossier(id);
     // ... puis fermer le menu
-    gererFermer();
+    gererFermerMenu();
   }
   let urlCouverture
   // Tester si l'URL danss la variable couverture est valide
@@ -64,8 +70,8 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
       <Menu
         id="menu-contextuel-dossier"
         anchorEl={eltAncrage}
-        open={estOuvert}
-        onClose={gererFermer}
+        open={estOuvertMenu}
+        onClose={gererFermerMenu}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'left',
@@ -78,6 +84,7 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
         <MenuItem onClick={gererFormulaireModifier}>Modifier</MenuItem>
         <MenuItem onClick={gererSupprimer}>Supprimer</MenuItem>
       </Menu>
+      <ModificationDossier ouvert={estOuvertFrm} setOuvert={setEstOuvertFrm} id={id} titre={titre} couleur={couleur} couverture={couverture} />
     </article>
   );
 }
