@@ -1,4 +1,4 @@
-import { getDocs, query, orderBy, collection, addDoc, Timestamp, getDoc, deleteDoc, doc } from '@firebase/firestore';
+import { getDocs, query, orderBy, collection, addDoc, Timestamp, getDoc, deleteDoc, doc, updateDoc } from '@firebase/firestore';
 import {bdFirestore} from './init';
 
 /**
@@ -30,4 +30,14 @@ export async function creer(idUtilisateur, dossier){
 export async function supprimer(uid, idDossier){
     let refDoc = await doc(bdFirestore, "signets", uid, "dossiers", idDossier);
     return await deleteDoc(refDoc);
+}
+
+/**
+ * Modifier les proprietes d'un dossier pour l'utilisateur connecte
+ * 
+ */
+
+export async function modifier(uid, idDossier, objetModif){
+    let refDoc = await doc(bdFirestore, "signets", uid, "dossiers", idDossier);
+    return await updateDoc(refDoc, objetModif);
 }

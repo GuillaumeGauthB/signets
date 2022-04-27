@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import ModificationDossier from './ModificationDossier';
 
-export default function Dossier({id, titre, couleur, dateModif, couverture, supprimerDossier}) {
+export default function Dossier({id, titre, couleur, dateModif, couverture, supprimerDossier, modifierDossier}) {
   // Etat du menu contextuel
   const [eltAncrage, setEltAncrage] = React.useState(null);
   const estOuvertMenu = Boolean(eltAncrage);
@@ -26,7 +26,7 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
   function gererFermerMenu() {
     setEltAncrage(null);
   };
-  
+
   function gererFormulaireModifier(){
     // Ouvrir le formulaire de modification du dossier (transferer l'information du
     // dossier dans le formulaire)...
@@ -50,6 +50,9 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
     couverture = couvertureDefaut;
   }
 
+  function gererModifier(nvId, nvTitre, nvCouverture, nvCouleur){
+    modifierDossier(nvId, nvTitre, nvCouverture, nvCouleur);
+  }
   return (
     // Remarquez l'objet JS donné à la valeur de l'attribut style en JSX, voir : 
     // https://reactjs.org/docs/dom-elements.html#style
@@ -84,7 +87,7 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
         <MenuItem onClick={gererFormulaireModifier}>Modifier</MenuItem>
         <MenuItem onClick={gererSupprimer}>Supprimer</MenuItem>
       </Menu>
-      <ModificationDossier ouvert={estOuvertFrm} setOuvert={setEstOuvertFrm} id={id} titre={titre} couleur={couleur} couverture={couverture} />
+      <ModificationDossier gererModifier={gererModifier} ouvert={estOuvertFrm} setOuvert={setEstOuvertFrm} id_p={id} titre_p={titre} couleur_p={couleur} couverture_p={couverture} />
     </article>
   );
 }

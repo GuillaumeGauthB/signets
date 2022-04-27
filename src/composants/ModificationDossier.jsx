@@ -8,26 +8,26 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {TwitterPicker} from 'react-color';
 import {useState} from 'react';
 
-export default function AjoutDossier({id, titre_p, couleur_p, couverture_p, ouvert, setOuvert, gererModifierDossier}) {
-    const [titre, setTitre] = useState(titre_p)
-    const [couverture, setCouverture] = useState(couverture_p)
-    const [couleur, setCouleur] = useState(couleur_p)
+export default function AjoutDossier({modifierDossier, ouvert, setOuvert, id, titre_p, couleur_p, couverture_p}) {
+  const [titre, setTitre] = useState(titre_p)
+  const [couverture, setCouverture] = useState(couverture_p)
+  const [couleur, setCouleur] = useState(couleur_p)
   const gererOuvrir = () => {
     setOuvert(true);
   };
 
   const gererFermer = () => {
     //  Constater le bpgue avant de reinitialiser les etats des valeurs du formulaire
-    setTitre('');
-    setCouverture('');
-    setCouleur('#000');
+    // setTitre('');
+    // setCouverture('');
+    // setCouleur('#000');
     setOuvert(false);
   };
 
   function gererSoumettre() {
     //   Code qui gere l'ajout dans Firestore
     if(titre.search(/[a-z]{2,}/i) != -1){
-      gererModifierDossier(titre, couverture, couleur);
+      modifierDossier(id, titre, couverture, couleur);
       gererFermer();
     }
   }
@@ -47,7 +47,7 @@ export default function AjoutDossier({id, titre_p, couleur_p, couverture_p, ouve
             fullWidth
             variant="standard"
             onChange={evt => setTitre(evt.target.value)}
-            value={titre_p}
+            value={titre}
           />
           {/* URL de l'image */}
           <TextField
@@ -60,6 +60,7 @@ export default function AjoutDossier({id, titre_p, couleur_p, couverture_p, ouve
             variant="standard"
             style={{marginBottom: "1.5rem"}}
             onChange={evt => setCouverture(evt.target.value)}
+            value={couverture}
           />
           {/* Couleur du dossier */}
           <TwitterPicker 
