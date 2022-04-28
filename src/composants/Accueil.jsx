@@ -1,6 +1,7 @@
 import './Accueil.scss';
 import logoGoogle from '../images/google-logo.png';
-import {connexion} from '../code/utilisateur-modele';
+import { connexion } from '../code/utilisateur-modele';
+
 
 export default function Accueil() {
   return (

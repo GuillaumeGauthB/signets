@@ -1,6 +1,6 @@
 import './Entete.scss';
 import Avatar from '@mui/material/Avatar';
-import {deconnexion} from '../code/utilisateur-modele';
+import { deconnexion } from '../code/utilisateur-modele';
 
 export default function Entete({utilisateur}) {
   return (
@@ -9,9 +9,9 @@ export default function Entete({utilisateur}) {
       <nav>
         <div className="utilisateur">
           {utilisateur.displayName} 
-          <Avatar className="avatar" alt={utilisateur.displayName} src={utilisateur.photoURL} />
-          <div className="btn-deconnexion" onClick={deconnexion}>Déconnexion</div>
+          <Avatar className="avatar" title={utilisateur.email} alt={utilisateur.displayName} src={utilisateur.photoURL} />
         </div>
+        <div className="btn-deconnexion" onClick={deconnexion}>Déconnexion</div>
       </nav>
     </header>
   );
