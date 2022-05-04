@@ -4,12 +4,18 @@ import SortIcon from '@mui/icons-material/Sort';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import couvertureDefaut from '../images/couverture-defaut.webp';
+import couvertureDefaut from '../images/couverture-defaut.png';
 import { formaterDate } from '../code/helper';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import FrmDossier from './FrmDossier';
+import * as signetModele from '../code/signet-modele';
+import { UtilisateurContexte } from './Appli';
 
-export default function Dossier({id, titre, couleur, dateModif, couverture, supprimerDossier, modifierDossier, ajouterSignet}) {
+export default function Dossier({id, titre, couleur, dateModif, couverture, top3, supprimerDossier, modifierDossier}) {
+  // Lire la variable globale UtilisateurContext
+  const uid = useContext(UtilisateurContexte).uid;
+
+  const [signets, setSignets] = useState(top3 || [])
   // État du menu contextuel
   const [eltAncrage, setEltAncrage] = useState(null);
   const ouvertMenu = Boolean(eltAncrage);
@@ -56,6 +62,8 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
   const [dropzone, setDropzone] = useState(false);
 
   function gererDragEnter(evt) {
+    // Limiter aux liens
+    evt.dataTransfer.effectAllowed = 'link';
     evt.preventDefault();
     setDropzone(true);
   }
@@ -80,6 +88,14 @@ export default function Dossier({id, titre, couleur, dateModif, couverture, supp
     ajouterSignet(id, url);
   }
 
+  function ajouterSignet(idDossier, url) {
+    // signets[signets.length] = {adresse: url, titre: 'bla bla'};
+    const derniers3 = [...signets, {adresse: url, titre: 'bla bla'}].slice(-3);
+    console.log("Derniers 3 : ", derniers3);
+    signetModele.creer(uid, idDossier, derniers3).then(
+      () => setSignets(derniers3)
+    )
+  }
   return (
     <article className={"Dossier" + (dropzone ? ' dropzone': '')} onDrop={gererDrop} onDragEnter={gererDragEnter} onDragOver={gererDragOver} onDragLeave={gererDragLeave} style={{backgroundColor: couleur}}>
       <IconButton className="deplacer" aria-label="déplacer" disableRipple={true}>

@@ -1,8 +1,13 @@
 import './Entete.scss';
 import Avatar from '@mui/material/Avatar';
 import { deconnexion } from '../code/utilisateur-modele';
+import { UtilisateurContexte } from './Appli';
+import { useContext} from 'react';
 
-export default function Entete({utilisateur}) {
+
+export default function Entete() {
+  // Lire la variable globale UtilisateurContext
+  const utilisateur = useContext(UtilisateurContexte);
   return (
     <header className="Entete">
       <div className="logo">Signets</div>
